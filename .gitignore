@@ -21,3 +21,24 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.env
+# IDEs and editors
+.idea
+.vscode
+# Operating system files
+Thumbs.db
+.DS_Store
+# Logs
+logs
+*.log
+# Temporary files
+tmp
+temp
+# Build directories
+dist
+# Cache directories
+.cache
+# Compiled source
+*.class
+# Python cache
+__pycache__
