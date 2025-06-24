@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
+// import { LoginForm } from './components/forms/LoginForm';
 
-function App() {
+// function App() {
+//   return (
+//     <div>
+//       <LoginForm />
+//     </div>
+//   );
+// }
+
+// export default App;
+import React from 'react';
+import RecipeFetcher from './components/recipeFetcher';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <RecipeFetcher />
     </div>
   );
-}
+};
 
 export default App;

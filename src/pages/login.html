@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React User Login</title>
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-color-light: #6366f1;
+      --accent-color: #e0e7ff;
+      --background-color: #f9fafb;
+      --input-bg: #ffffff;
+      --input-border: #d1d5db;
+      --error-color: #ef4444;
+      --success-color: #10b981;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background-color: var(--background-color);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: white;
+      padding: 2rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+      box-shadow: 0 12px 36px rgba(79, 70, 229, 0.3);
+    }
+
+    .login-title {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      border: 1.5px solid var(--input-border);
+      border-radius: 6px;
+      background-color: var(--input-bg);
+      margin-bottom: 1.25rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: var(--primary-color-light);
+      box-shadow: 0 0 8px var(--primary-color-light);
+    }
+
+    .btn-login {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.6rem 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .btn-login:hover:not(:disabled) {
+      background-color: var(--primary-color-light);
+    }
+
+    .btn-login:disabled {
+      background-color: #a5b4fc;
+      cursor: not-allowed;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .message.error {
+      color: var(--error-color);
+    }
+
+    .message.success {
+      color: var(--success-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and ReactDOM via CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script>
+    const { useState } = React;
+
+    function LoginPage() {
+      const [username, setUsername] = useState('');
+      const [password, setPassword] = useState('');
+      const [error, setError] = useState('');
+      const [success, setSuccess] = useState('');
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+
+        // Simple validation
+        if (!username.trim()) {
+          setError('Username is required.');
+          return;
+        }
+        if (!password) {
+          setError('Password is required.');
+          return;
+        }
+
+        // Simulate login success for demonstration
+        if (username === 'admin' && password === 'admin123') {
+          setSuccess('Login successful! Welcome, ' + username + '.');
+          setUsername('');
+          setPassword('');
+        } else {
+          setError('Invalid username or password.');
+        }
+      };
+
+      return (
+        React.createElement('div', { className: 'login-container' },
+          React.createElement('h2', { className: 'login-title' }, 'User Login'),
+          React.createElement('form', { onSubmit: handleSubmit, noValidate: true },
+            React.createElement('label', { htmlFor: 'username' }, 'Username'),
+            React.createElement('input', {
+              type: 'text',
+              id: 'username',
+              value: username,
+              onChange: e => setUsername(e.target.value),
+              placeholder: 'Enter your username',
+              autoComplete: 'username'
+            }),
+            React.createElement('label', { htmlFor: 'password' }, 'Password'),
+            React.createElement('input', {
+              type: 'password',
+              id: 'password',
+              value: password,
+              onChange: e => setPassword(e.target.value),
+              placeholder: 'Enter your password',
+              autoComplete: 'current-password'
+            }),
+            React.createElement('button', {
+              type: 'submit',
+              className: 'btn-login',
+              disabled: !username.trim() || !password
+            }, 'Login')
+          ),
+          error && React.createElement('p', { className: 'message error' }, error),
+          success && React.createElement('p', { className: 'message success' }, success)
+        )
+      );
+    }
+
+    const rootContainer = document.getElementById('root');
+    const root = ReactDOM.createRoot(rootContainer);
+    root.render(React.createElement(LoginPage));
+  </script>
+</body>
+</html>
