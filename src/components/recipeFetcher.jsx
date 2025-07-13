@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import TypewriterBlock from '../components/TypewriterText';
+import Pagination from '../components/Pagination';
+
 
 const RecipeFetcher = () => {
   const [query, setQuery] = useState('');
@@ -186,25 +188,12 @@ const RecipeFetcher = () => {
         ))}
 
         {/* Pagination Controls */}
-        {recipes.length > recipesPerPage && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              style={{ padding: '6px 12px', marginRight: '10px' }}
-            >
-              Previous
-            </button>
-            <span style={{ alignSelf: 'center' }}>Page {currentPage} of {totalPages}</span>
-            <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              style={{ padding: '6px 12px', marginLeft: '10px' }}
-            >
-              Next
-            </button>
-          </div>
-        )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+
       </div>
     </div>
   );
