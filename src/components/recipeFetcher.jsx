@@ -8,12 +8,15 @@ const RecipeFetcher = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [source, setSource] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 3;
 
   const fetchRecipes = async () => {
     setLoading(true);
     setError('');
     setRecipes([]);
     setSource('');
+    setCurrentPage(1);
 
     const token = localStorage.getItem('token');
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -126,6 +129,11 @@ const RecipeFetcher = () => {
       .map((s) => `${s}.`);
   };
 
+  const indexOfLast = currentPage * recipesPerPage;
+  const indexOfFirst = indexOfLast - recipesPerPage;
+  const currentRecipes = recipes.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(recipes.length / recipesPerPage);
+
   return (
     <div
       style={{
@@ -158,7 +166,7 @@ const RecipeFetcher = () => {
       {source && <p><strong>Source:</strong> {source}</p>}
 
       <div>
-        {recipes.map((recipe, index) => (
+        {currentRecipes.map((recipe, index) => (
           <div
             key={recipe.id || index}
             style={{
@@ -176,6 +184,27 @@ const RecipeFetcher = () => {
             )}
           </div>
         ))}
+
+        {/* Pagination Controls */}
+        {recipes.length > recipesPerPage && (
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              style={{ padding: '6px 12px', marginRight: '10px' }}
+            >
+              Previous
+            </button>
+            <span style={{ alignSelf: 'center' }}>Page {currentPage} of {totalPages}</span>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              style={{ padding: '6px 12px', marginLeft: '10px' }}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
