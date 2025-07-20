@@ -8,6 +8,7 @@
 // };
 import axios from 'axios';
 const SPOONACULAR_API_KEY = process.env.REACT_APP_SPOONACULAR_KEY;
+// const X_API_KEY = process.env.X_API_KEY;
 // Tokenization: only tokenize when query includes commas, "and" or "or"
 const tokenizeIngredients = (query) => {
   const shouldTokenize = /,|\band\b|\bor\b/i.test(query);
@@ -124,6 +125,7 @@ const fetchAllRecipes = async (query, token = '') => {
   //     source: 'TheCocktailDB'
   //   };
   // });
+
   // 6. TheCocktailDB (by drink name)
 await tryAPI(async () => {
   const res = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${jQuery}`);
@@ -173,6 +175,34 @@ await tryAPI(async () => {
       source: 'Spoonacular API'
     };
   });
+
+   // 8. Ninja Recipe API
+  // await tryAPI(async () => {
+  //   if (!X_API_KEY) throw new Error('Missing Ninja API Key');
+    
+  //   const res = await axios.get(
+  //     `https://api.api-ninjas.com/v1/recipe?query=${encodeURIComponent(jQuery)}`,
+  //     {
+  //       headers: { 'X-Api-Key': X_API_KEY }
+  //     }
+  //   );
+
+  //   const formatted = res.data.map((r, index) => ({
+  //     id: r.id || r._id || index + 1000,
+  //     name: r.title || 'Untitled',
+  //     instructions: r.instructions || '',
+  //     image: '',
+  //     video: '',
+  //     source: 'Ninja API'
+  //   })).filter(r => r.instructions?.trim());
+
+  //   return {
+  //     recipes: formatted,
+  //     source: 'Ninja API'
+  //   };
+  // });
+  // Not working at all, so commenting out for now
+  // https://api-ninjas.com/profile 
 
   return { recipes: finalRecipes, source: sourceUsed, found };
 };
