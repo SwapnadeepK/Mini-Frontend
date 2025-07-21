@@ -55,13 +55,54 @@ const fetchAllRecipes = async (query, token = '') => {
   };
 
   // 1. Tasty API (localhost)
-  await tryAPI(async () => {
-    const res = await axios.get(`http://localhost:5000/recipes/search?q=${jQuery}`, { headers });
-    return {
-      recipes: formatAPIRecipe(res.data.recipes, 'Tasty API (Localhost)'),
-      source: 'Tasty API (Localhost)'
-    };
-  });
+  // await tryAPI(async () => {
+  //   const res = await axios.get(`http://localhost:5000/search?q=${jQuery}`, { headers });
+  //   return {
+  //     recipes: formatAPIRecipe(res.data.recipes, 'Tasty API (Localhost)'),
+  //     source: 'Tasty API (Localhost)'
+  //   };
+  // });
+
+  // 1. Tasty API (localhost)
+// await tryAPI(async () => {
+//   const res = await axios.get(`http://localhost:5000/search?q=${jQuery}`, { headers });
+
+//   // Optional: Format only if you want consistent structure across APIs
+//   const formattedRecipes = res.data.recipes.map(recipe => ({
+//     title: recipe.title,
+//     ingredients: recipe.ingredients || [],
+//     directions: recipe.directions || [],
+//     link: recipe.link,
+//     source: recipe.source || 'Tasty API (Localhost)',
+//     NER: recipe.NER || []
+//   }));
+
+//   return {
+//     recipes: formattedRecipes,
+//     source: 'Tasty API (Localhost)'
+//   };
+// });
+    // 1. Tasty API (localhost)
+await tryAPI(async () => {
+  const res = await axios.get(`http://localhost:5000/search?q=${jQuery}`, { headers });
+
+  // Format to match standard structure
+  const formattedRecipes = res.data.recipes.map((recipe, index) => ({
+    id: recipe._id || index + 1, // fallback index if no ID
+    name: recipe.title || 'Untitled',
+    instructions: Array.isArray(recipe.directions) ? recipe.directions.join(' ') : recipe.directions || '',
+    image: recipe.image || '', // Add if Tasty API has image
+    video: recipe.video || '', // Add if Tasty API has video
+    source: 'Tasty API (Localhost)'
+  })).filter(r => r.instructions?.trim());
+
+  return {
+    recipes: formattedRecipes,
+    source: 'Tasty API (Localhost)'
+  };
+});
+
+
 
   // 2. DummyJSON
   await tryAPI(async () => {
