@@ -76,6 +76,17 @@ const RecipeFetcher = () => {
               <a href={recipe.video} target="_blank" rel="noopener noreferrer">Watch Video</a>
             </div>
           )}
+          {recipe.ingredients?.length > 0 && (
+  <div style={{ marginBottom: '10px' }}>
+    <strong>Ingredients:</strong>
+    <ul style={{ paddingLeft: '20px' }}>
+      {Array.isArray(recipe.ingredients)
+        ? recipe.ingredients.map((ing, i) => <li key={i}>{ing}</li>)
+        : recipe.ingredients.split(',').map((ing, i) => <li key={i}>{ing.trim()}</li>)
+      }
+    </ul>
+  </div>
+)}
           <TypewriterBlock lines={formatInstructions(recipe.instructions)} />
         </div>
       ))}

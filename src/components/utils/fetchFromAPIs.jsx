@@ -25,6 +25,7 @@ const formatAPIRecipe = (data, sourceName) =>
   data?.filter(r => r.instructions?.trim()).map(r => ({
     id: r.id || r.idMeal || r._id || Math.random(),
     name: r.name || r.title || r.strMeal,
+    ingredients: Array.isArray(r.ingredients) ? r.ingredients : typeof r.ingredients === 'string' ? r.ingredients.split(',').map(i => i.trim()) : [],
     instructions: r.instructions || r.strInstructions,
     image: r.image || r.strMealThumb || r.thumbnail || '',
     video: r.video || r.strYoutube || '',
@@ -90,6 +91,8 @@ await tryAPI(async () => {
   const formattedRecipes = res.data.recipes.map((recipe, index) => ({
     id: recipe._id || index + 1, // fallback index if no ID
     name: recipe.title || 'Untitled',
+    // ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients.join(', ') : recipe.ingredients || '',
+    ingredients: Array.isArray(recipe.ingredients)? recipe.ingredients: typeof recipe.ingredients === 'string'? recipe.ingredients.split(',').map(i => i.trim()): [],
     instructions: Array.isArray(recipe.directions) ? recipe.directions.join(' ') : recipe.directions || '',
     image: recipe.image || '', // Add if Tasty API has image
     video: recipe.video || '', // Add if Tasty API has video
