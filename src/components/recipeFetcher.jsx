@@ -78,15 +78,20 @@ const RecipeFetcher = () => {
           )}
           {recipe.ingredients?.length > 0 && (
   <div style={{ marginBottom: '10px' }}>
-    <strong>Ingredients:</strong>
-    <ul style={{ paddingLeft: '20px' }}>
-      {Array.isArray(recipe.ingredients)
-        ? recipe.ingredients.map((ing, i) => <li key={i}>{ing}</li>)
-        : recipe.ingredients.split(',').map((ing, i) => <li key={i}>{ing.trim()}</li>)
+    <h4>Ingredients:</h4>
+    <TypewriterBlock
+      lines={
+        Array.isArray(recipe.ingredients)
+          ? recipe.ingredients.map((ing) => `${ing}`)
+          : recipe.ingredients.split(',').map((ing) => `${ing.trim()}`)
       }
-    </ul>
+    />
   </div>
 )}
+
+
+          <strong>Steps/Instructions for your recipe(s):</strong>
+          <br />
           <TypewriterBlock lines={formatInstructions(recipe.instructions)} />
         </div>
       ))}
