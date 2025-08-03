@@ -11,15 +11,30 @@
 // }
 
 // export default App;
-import React from 'react';
+// App.jsx
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import RecipeFetcher from './components/recipeFetcher';
 
-const App = () => {
+const theme = createTheme({
+  palette: {
+    mode: 'light', // or 'dark'
+    primary: {
+      main: '#00796b',
+    },
+    secondary: {
+      main: '#ff5722',
+    },
+  },
+});
+
+function App() {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <RecipeFetcher />
-    </div>
+    </ThemeProvider>
   );
-};
+}
 
 export default App;
