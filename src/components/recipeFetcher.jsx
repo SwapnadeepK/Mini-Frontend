@@ -114,6 +114,10 @@ import { fetchAllRecipes } from '../components/utils/fetchFromAPIs';
 import { Container, TextField, Button, CircularProgress, Box } from '@mui/material';
 import RecipeCard from '../components/RecipeCard';
 import Pagination from '../components/Pagination';
+import { useThemeToggle } from '../ThemeContext';
+import { IconButton, Tooltip } from '@mui/material';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 const RecipeFetcher = () => {
   const [query, setQuery] = useState('');
@@ -123,6 +127,8 @@ const RecipeFetcher = () => {
   const [source, setSource] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 3;
+  const { toggleTheme, mode } = useThemeToggle();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -155,18 +161,40 @@ const RecipeFetcher = () => {
   const currentRecipes = recipes.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(recipes.length / recipesPerPage);
 
-  return (
-    <Container maxWidth="md" sx={{ mt: 5 }}>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, marginBottom: '20px' }}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Enter ingredients (e.g., rice, chicken)"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <Button type="submit" variant="contained">Search</Button>
-      </form>
+  // return (
+  //   <Container maxWidth="md" sx={{ mt: 5 }}>
+  //     <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, marginBottom: '20px' }}>
+  //       <TextField
+  //         fullWidth
+  //         variant="outlined"
+  //         placeholder="Enter ingredients (e.g., rice, chicken)"
+  //         value={query}
+  //         onChange={(e) => setQuery(e.target.value)}
+  //       />
+  //       <Button type="submit" variant="contained">Search</Button>
+  //     </form>
+       return (
+  <Container maxWidth="md" sx={{ mt: 5 }}>
+    {/* Theme Toggle */}
+    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+      <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
+        <IconButton onClick={toggleTheme} color="inherit">
+          {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+        </IconButton>
+      </Tooltip>
+    </Box>
+
+    {/* Search Form */}
+    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, marginBottom: '20px' }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="Enter ingredients (e.g., rice, chicken)"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <Button type="submit" variant="contained">Search</Button>
+    </form>
 
       {loading && (
         <Box display="flex" justifyContent="center" mt={3}>
