@@ -44,7 +44,7 @@ const LeftSidebar = () => {
           color: theme.palette.text.secondary,
         }}
       >
-        This AI-powered recipe app uses Regular Expression and multiple food APIs to fetch custom recipes based on your ingredients.
+        This is a MERN-powered recipe app uses Regular Expression and multiple food APIs to fetch custom recipes based on your ingredients.
       </Typography>
     </Box>
   );
